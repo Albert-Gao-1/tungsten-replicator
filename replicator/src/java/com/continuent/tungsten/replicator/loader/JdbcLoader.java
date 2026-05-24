@@ -551,7 +551,7 @@ public abstract class JdbcLoader extends Loader
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace();
+                    logger.error("Failed to extract row value", e);
                     cVal.setValue(null);
                     logger.error("Unable to extract value of "
                             + extractedRows.getString(cDef.getName()) + " for "

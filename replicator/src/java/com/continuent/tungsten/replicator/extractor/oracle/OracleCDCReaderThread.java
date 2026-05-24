@@ -294,7 +294,7 @@ public class OracleCDCReaderThread extends Thread
             // throw new ReplicatorException("Source " + src.getSchema() + "."
             // + src.getTable() + " does not seem to exist anymore");
 
-            StringBuffer subscribeStmt = new StringBuffer();
+            StringBuilder subscribeStmt = new StringBuilder();
             for (OracleCDCPublication pub : publications.values())
             {
                 if (changeSets.remove(pub.getPublicationName()))
@@ -429,7 +429,7 @@ public class OracleCDCReaderThread extends Thread
         long currentSCN = -1;
         RowChangeData rowData = null;
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
 
         boolean alreadyLogged = false;
 
@@ -519,7 +519,7 @@ public class OracleCDCReaderThread extends Thread
                         // Reset sleep time
                         currentSleepTime = minSleepTimeInMs;
 
-                        buffer = new StringBuffer();
+                        buffer = new StringBuilder();
 
                         for (int i = 1; i <= resultset.getMetaData()
                                 .getColumnCount(); i++)

@@ -401,7 +401,7 @@ public class QueryLogEvent extends LogEvent
                         // MySQLBinlog.sql_modes.
                         sql_mode = LittleEndianConversion.convert8BytesToLong(
                                 buffer, pos);
-                        StringBuffer sqlMode = new StringBuffer("");
+                        StringBuilder sqlMode = new StringBuilder("");
                         Enumeration<Long> keys = MysqlBinlog.sql_modes.keys();
                         while (keys.hasMoreElements())
                         {
@@ -526,7 +526,7 @@ public class QueryLogEvent extends LogEvent
                         // database in the binlog event
                         for (int i = 0; i < count && count != 0xFE; i++)
                         {
-                            StringBuffer buf = new StringBuffer();
+                            StringBuilder buf = new StringBuilder();
                             while (buffer[pos] != '\0')
                             {
                                 buf.append((char) buffer[pos]);

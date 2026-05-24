@@ -728,7 +728,7 @@ public class LogFile
      */
     public synchronized String toString()
     {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append(this.getClass().getSimpleName()).append(": ");
         sb.append("name=").append(file.getName());
         sb.append(" mode=").append(mode);

@@ -399,7 +399,7 @@ public class THLParallelReadTask implements Runnable
      */
     public String toString()
     {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append(this.getClass().getSimpleName());
         sb.append(" task_id=").append(taskId);
         sb.append(" thread_name=");

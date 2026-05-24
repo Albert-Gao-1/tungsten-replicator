@@ -598,7 +598,7 @@ public class RelayLogClient
 
         if (logger.isDebugEnabled())
         {
-            StringBuffer sb = new StringBuffer("Reading binlog event:");
+            StringBuilder sb = new StringBuilder("Reading binlog event:");
             sb.append(" timestamp=").append(timestamp);
             sb.append(" type_code=").append(typeCode);
             sb.append(" server_id=").append(serverId);
@@ -624,7 +624,7 @@ public class RelayLogClient
 
             if (logger.isDebugEnabled())
             {
-                StringBuffer sb2 = new StringBuffer("ROTATE_EVENT:");
+                StringBuilder sb2 = new StringBuilder("ROTATE_EVENT:");
                 sb2.append(" next_start_offset=").append(offset);
                 sb2.append(" next_binlog_name=").append(binlog);
                 if (logger.isDebugEnabled())

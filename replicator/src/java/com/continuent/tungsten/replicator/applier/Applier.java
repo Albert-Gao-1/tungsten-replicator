@@ -49,7 +49,7 @@ public interface Applier extends ReplicatorPlugin
      *             consistency check has failed
      * @throws InterruptedException Thrown if the applier is interrupted
      */
-    public void apply(ReplDBMSEvent event, boolean doCommit,
+    void apply(ReplDBMSEvent event, boolean doCommit,
             boolean doRollback, boolean syncTHL) throws ReplicatorException,
             ConsistencyException, InterruptedException;
 
@@ -64,7 +64,7 @@ public interface Applier extends ReplicatorPlugin
      * @throws ReplicatorException Thrown if applier processing fails
      * @throws InterruptedException Thrown if the applier is interrupted
      */
-    public void updatePosition(ReplDBMSHeader header, boolean doCommit,
+    void updatePosition(ReplDBMSHeader header, boolean doCommit,
             boolean syncTHL) throws ReplicatorException, InterruptedException;
 
     /**
@@ -74,14 +74,14 @@ public interface Applier extends ReplicatorPlugin
      * @throws ReplicatorException Thrown if applier processing fails
      * @throws InterruptedException Thrown if the applier is interrupted
      */
-    public void commit() throws ReplicatorException, InterruptedException;
+    void commit() throws ReplicatorException, InterruptedException;
 
     /**
      * Rolls back any current work.
      * 
      * @throws InterruptedException
      */
-    public void rollback() throws InterruptedException;
+    void rollback() throws InterruptedException;
 
     /**
      * Return header information corresponding to last committed transaction.
@@ -90,7 +90,7 @@ public interface Applier extends ReplicatorPlugin
      * @throws ReplicatorException Thrown if getting sequence number fails
      * @throws InterruptedException Thrown if the applier is interrupted
      */
-    public ReplDBMSHeader getLastEvent() throws ReplicatorException,
+    ReplDBMSHeader getLastEvent() throws ReplicatorException,
             InterruptedException;
 
 }

@@ -277,7 +277,7 @@ public class ReplicateColumnsFilter implements Filter
     // as a key.
     public String fullyQualifiedName(String schema, String table, String column)
     {
-        StringBuffer fqn = new StringBuffer();
+        StringBuilder fqn = new StringBuilder();
         fqn.append(schema);
         fqn.append(table);
         if (column != null)

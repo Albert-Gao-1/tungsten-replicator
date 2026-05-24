@@ -45,7 +45,7 @@ public class SqlConnectionSpecVertica extends SqlConnectionSpecGeneric
     {
         if (url == null)
         {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             sb.append("jdbc:vertica://");
             sb.append(host);
             sb.append(":");

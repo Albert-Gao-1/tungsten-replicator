@@ -78,19 +78,37 @@ public class MySQLApplier extends JdbcApplier
     /**
      * Format DATE value according to MySQL expectations.
      */
-    protected final SimpleDateFormat dateFormatter          = new SimpleDateFormat(
-                                                                    "yyyy-MM-dd");
+    protected static final ThreadLocal<SimpleDateFormat> dateFormatter = new ThreadLocal<SimpleDateFormat>()
+    {
+        @Override
+        protected SimpleDateFormat initialValue()
+        {
+            return new SimpleDateFormat("yyyy-MM-dd");
+        }
+    };
     /**
      * Format TIME value according to MySQL expectations.
      */
-    protected final SimpleDateFormat timeFormatter          = new SimpleDateFormat(
-                                                                    "HH:mm:ss");
+    protected static final ThreadLocal<SimpleDateFormat> timeFormatter = new ThreadLocal<SimpleDateFormat>()
+    {
+        @Override
+        protected SimpleDateFormat initialValue()
+        {
+            return new SimpleDateFormat("HH:mm:ss");
+        }
+    };
     /**
      * Format MySQL DATETIME value according to MySQL expectations. The DATETIME
      * data type cannot change time zones or upgrade breaks.
      */
-    protected final SimpleDateFormat mysqlDatetimeFormatter = new SimpleDateFormat(
-                                                                    "yyyy-MM-dd HH:mm:ss");
+    protected static final ThreadLocal<SimpleDateFormat> mysqlDatetimeFormatter = new ThreadLocal<SimpleDateFormat>()
+    {
+        @Override
+        protected SimpleDateFormat initialValue()
+        {
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        }
+    };
 
     /**
      * Host name or IP address.
@@ -179,9 +197,9 @@ public class MySQLApplier extends JdbcApplier
         TimeZone replicatorTz = runtime.getReplicatorTimeZone();
         logger.info("Resetting time zones used for date-time to enable time zone-aware operation: new tz="
                 + replicatorTz.getDisplayName());
-        dateTimeFormatter.setTimeZone(replicatorTz);
-        dateFormatter.setTimeZone(replicatorTz);
-        timeFormatter.setTimeZone(replicatorTz);
+        dateTimeFormatter.get().setTimeZone(replicatorTz);
+        dateFormatter.get().setTimeZone(replicatorTz);
+        timeFormatter.get().setTimeZone(replicatorTz);
         // Do not alter the formatter for MySQL DATETIME type.
         nonTzAwareMode = false;
     }
@@ -210,9 +228,9 @@ public class MySQLApplier extends JdbcApplier
         TimeZone hostTz = runtime.getHostTimeZone();
         logger.info("Resetting time zones used for date-time to enable non-time zone-aware operation: new tz="
                 + hostTz.getDisplayName());
-        dateTimeFormatter.setTimeZone(hostTz);
-        dateFormatter.setTimeZone(hostTz);
-        timeFormatter.setTimeZone(hostTz);
+        dateTimeFormatter.get().setTimeZone(hostTz);
+        dateFormatter.get().setTimeZone(hostTz);
+        timeFormatter.get().setTimeZone(hostTz);
         // Do not alter the formatter for MySQL DATETIME type.
         nonTzAwareMode = true;
     }
@@ -404,11 +422,11 @@ public class MySQLApplier extends JdbcApplier
      * 
      * @param oneRowChange row event being processed
      */
-    private StringBuffer prepareOptimizedInsertStatement(
+    private StringBuilder prepareOptimizedInsertStatement(
             OneRowChange oneRowChange)
     {
-        StringBuffer stmt;
-        stmt = new StringBuffer();
+        StringBuilder stmt;
+        stmt = new StringBuilder();
         stmt.append("INSERT INTO ");
         stmt.append(conn.getDatabaseObjectName(oneRowChange.getSchemaName())
                 + "." + conn.getDatabaseObjectName(oneRowChange.getTableName()));
@@ -438,10 +456,10 @@ public class MySQLApplier extends JdbcApplier
     /**
      * Create statement for optimized delete.
      */
-    private StringBuffer prepareOptimizedDeleteStatement(
+    private StringBuilder prepareOptimizedDeleteStatement(
             OneRowChange oneRowChange, String keyName)
     {
-        StringBuffer stmt = new StringBuffer();
+        StringBuilder stmt = new StringBuilder();
         stmt.append("DELETE FROM ");
         stmt.append(conn.getDatabaseObjectName(oneRowChange.getSchemaName())
                 + "." + conn.getDatabaseObjectName(oneRowChange.getTableName()));
@@ -471,7 +489,7 @@ public class MySQLApplier extends JdbcApplier
      * Execute a single prepared statement.
      */
     private void executePreparedStatement(OneRowChange oneRowChange,
-            StringBuffer stmt, ArrayList<ColumnSpec> spec,
+            StringBuilder stmt, ArrayList<ColumnSpec> spec,
             ArrayList<ArrayList<ColumnVal>> values) throws ApplierException
     {
         PreparedStatement prepStatement = null;

@@ -32,7 +32,7 @@ import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.regex.Pattern;
@@ -128,7 +128,7 @@ public class JdbcApplier implements RawApplier
 
     private ReplDBMSHeader            lastProcessedEvent         = null;
 
-    private Hashtable<Integer, File>  fileTable;
+    private HashMap<Integer, File>  fileTable;
 
     protected HashMap<String, String> currentOptions;
 
@@ -142,8 +142,14 @@ public class JdbcApplier implements RawApplier
 
     // Generic formatter for date-time values. This can safely be set without a
     // time zone, as it will pick up the default replicator time zone.
-    protected final SimpleDateFormat  dateTimeFormatter          = new SimpleDateFormat(
-                                                                         "yyyy-MM-dd HH:mm:ss");
+    protected static final ThreadLocal<SimpleDateFormat> dateTimeFormatter = new ThreadLocal<SimpleDateFormat>()
+    {
+        @Override
+        protected SimpleDateFormat initialValue()
+        {
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        }
+    };
 
     private String                    setTimestampQuery          = "";
     private boolean                   applyTS                    = false;
@@ -273,7 +279,7 @@ public class JdbcApplier implements RawApplier
                     // logger.info("this_crc : " + this_crc);
 
                     // record local values in the consistency table
-                    StringBuffer update = new StringBuffer(256);
+                    StringBuilder update = new StringBuilder(256);
                     update.append("UPDATE ");
                     update.append(consistencyTable);
                     update.append(" SET ");
@@ -353,7 +359,7 @@ public class JdbcApplier implements RawApplier
      *            mode is ASSIGNMENT, "x IS ?" is constructed instead of "x =
      *            ?".
      */
-    protected void printColumnSpec(StringBuffer stmt,
+    protected void printColumnSpec(StringBuilder stmt,
             ArrayList<OneRowChange.ColumnSpec> cols,
             ArrayList<OneRowChange.ColumnVal> keyValues,
             ArrayList<OneRowChange.ColumnVal> colValues, PrintMode mode,
@@ -847,14 +853,14 @@ public class JdbcApplier implements RawApplier
      *            used.
      * @return Constructed SQL statement with "?" instead of real values.
      */
-    private StringBuffer constructStatement(RowChangeData.ActionType action,
+    private StringBuilder constructStatement(RowChangeData.ActionType action,
             String schemaName, String tableName,
             ArrayList<OneRowChange.ColumnSpec> columns,
             ArrayList<OneRowChange.ColumnSpec> keys,
             ArrayList<OneRowChange.ColumnVal> keyValues,
             ArrayList<OneRowChange.ColumnVal> colValues)
     {
-        StringBuffer stmt = new StringBuffer();
+        StringBuilder stmt = new StringBuilder();
         if (action == RowChangeData.ActionType.INSERT)
         {
             stmt.append("INSERT INTO ");
@@ -970,7 +976,7 @@ public class JdbcApplier implements RawApplier
 
         getColumnInfomation(oneRowChange);
 
-        StringBuffer stmt = null;
+        StringBuilder stmt = null;
 
         ArrayList<OneRowChange.ColumnSpec> key = oneRowChange.getKeySpec();
         ArrayList<OneRowChange.ColumnSpec> columns = oneRowChange
@@ -1116,7 +1122,7 @@ public class JdbcApplier implements RawApplier
         }
     }
 
-    private String logFailedRowChangeSQL(StringBuffer stmt,
+    private String logFailedRowChangeSQL(StringBuilder stmt,
             OneRowChange oneRowChange, int row)
     {
         try
@@ -1154,7 +1160,7 @@ public class JdbcApplier implements RawApplier
      * @see #maxSQLLogLength
      * @param stmt SQL template for PreparedStatement
      */
-    protected String logFailedRowChangeSQL(StringBuffer stmt,
+    protected String logFailedRowChangeSQL(StringBuilder stmt,
             OneRowChange oneRowChange)
     {
         try
@@ -1195,7 +1201,7 @@ public class JdbcApplier implements RawApplier
             ArrayList<ArrayList<OneRowChange.ColumnVal>> keyValues,
             ArrayList<ArrayList<OneRowChange.ColumnVal>> columnValues, int row)
     {
-        StringBuffer log = new StringBuffer("\n - ROW# = " + row);
+        StringBuilder log = new StringBuilder("\n - ROW# = " + row);
         // Print column values.
         for (int c = 0; c < columns.size(); c++)
         {
@@ -1207,7 +1213,7 @@ public class JdbcApplier implements RawApplier
                 OneRowChange.ColumnVal value = values.get(c);
                 log.append('\n');
                 log.append(THLManagerCtrl.formatColumn(colSpec, value, "COL",
-                        "utf8", false, true, dateTimeFormatter));
+                        "utf8", false, true, dateTimeFormatter.get()));
             }
         }
         // Print key values.
@@ -1220,7 +1226,7 @@ public class JdbcApplier implements RawApplier
                 OneRowChange.ColumnVal value = values.get(k);
                 log.append('\n');
                 log.append(THLManagerCtrl.formatColumn(colSpec, value, "KEY",
-                        "utf8", false, true, dateTimeFormatter));
+                        "utf8", false, true, dateTimeFormatter.get()));
             }
         }
         return log.toString();
@@ -1857,7 +1863,7 @@ public class JdbcApplier implements RawApplier
         metadataSchema = context.getReplicatorSchemaName();
         consistencyTable = metadataSchema + "." + ConsistencyTable.TABLE_NAME;
         consistencySelect = "SELECT * FROM " + consistencyTable + " ";
-        fileTable = new Hashtable<Integer, File>();
+        fileTable = new HashMap<Integer, File>();
         if (ignoreSessionVars != null)
         {
             ignoreSessionPattern = Pattern.compile(ignoreSessionVars);

@@ -22,10 +22,10 @@ package com.continuent.tungsten.replicator.extractor.parallel;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
 
@@ -70,7 +70,7 @@ public class ParallelExtractor implements RawExtractor
     private PluginContext                 context;
     private String                        chunkDefinitionFile   = null;
 
-    private Hashtable<String, Long>       tableBlocks;
+    private ConcurrentHashMap<String, Long>       tableBlocks;
 
     protected String                      eventId               = null;
 
@@ -157,7 +157,7 @@ public class ParallelExtractor implements RawExtractor
         chunksGeneratorThread = new ChunksGeneratorThread(dataSource,
                 extractChannels, chunks, chunkDefinitionFile, chunkSize);
 
-        tableBlocks = new Hashtable<String, Long>();
+        tableBlocks = new ConcurrentHashMap<String, Long>();
 
         threads = new ArrayList<ParallelExtractorThread>();
         for (int i = 0; i < extractChannels; i++)

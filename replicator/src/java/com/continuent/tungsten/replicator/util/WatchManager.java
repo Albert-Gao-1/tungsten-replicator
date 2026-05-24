@@ -21,7 +21,7 @@
 package com.continuent.tungsten.replicator.util;
 
 import java.util.List;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
@@ -36,7 +36,7 @@ import org.apache.log4j.Logger;
 public class WatchManager<E>
 {
     private static Logger  logger    = Logger.getLogger(WatchManager.class);
-    private List<Watch<E>> watchList = new Vector<Watch<E>>();
+    private List<Watch<E>> watchList = new ArrayList<Watch<E>>();
     boolean                cancelled = false;
 
     public WatchManager()

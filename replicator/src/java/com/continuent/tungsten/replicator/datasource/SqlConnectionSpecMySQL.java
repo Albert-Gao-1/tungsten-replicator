@@ -84,7 +84,7 @@ public class SqlConnectionSpecMySQL extends SqlConnectionSpecGeneric
             return url;
 
         // Otherwise compute the MySQL DBMS URL.
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         if (jdbcHeader == null)
             sb.append("jdbc:mysql:thin://");
         else

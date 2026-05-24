@@ -75,10 +75,10 @@ public class TableMatcher
 
         // Prepare to look for schema and table matches.
         boolean haveSchemaPattern = false;
-        StringBuffer db = new StringBuffer("^(");
+        StringBuilder db = new StringBuilder("^(");
 
         boolean haveTablePattern = false;
-        StringBuffer table = new StringBuffer("^(");
+        StringBuilder table = new StringBuilder("^(");
 
         String[] filterArr = patternString.split(",");
 
@@ -191,7 +191,7 @@ public class TableMatcher
     // as a key.
     private String fullyQualifiedName(String schema, String table)
     {
-        StringBuffer fqn = new StringBuffer();
+        StringBuilder fqn = new StringBuilder();
         fqn.append(schema);
         if (table != null)
             fqn.append(".").append(table);

@@ -22,7 +22,7 @@ package com.continuent.tungsten.replicator.filter;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
@@ -99,7 +99,7 @@ public class RenameDefinitions
         }
     }
 
-    private Hashtable<String, Hashtable<String, Hashtable<String, RenameRequest>>> lookupSchemaTableCol;
+    private HashMap<String, HashMap<String, HashMap<String, RenameRequest>>> lookupSchemaTableCol;
 
     /**
      * Path to rename definition file.
@@ -140,7 +140,7 @@ public class RenameDefinitions
     public void parseFile() throws IOException, ReplicatorException
     {
         // Clear previous lookup data.
-        lookupSchemaTableCol = new Hashtable<String, Hashtable<String, Hashtable<String, RenameRequest>>>();
+        lookupSchemaTableCol = new HashMap<String, HashMap<String, HashMap<String, RenameRequest>>>();
 
         logger.info("Parsing " + definitionFile + ":");
         CSVReader reader = new CSVReader(new FileReader(definitionFile));
@@ -252,11 +252,11 @@ public class RenameDefinitions
      */
     private boolean shouldRenameSpecificColumn(String schema, String table)
     {
-        Hashtable<String, Hashtable<String, RenameRequest>> lookupTableCol = lookupSchemaTableCol
+        HashMap<String, HashMap<String, RenameRequest>> lookupTableCol = lookupSchemaTableCol
                 .get(schema);
         if (lookupTableCol != null)
         {
-            Hashtable<String, RenameRequest> lookupCol = lookupTableCol
+            HashMap<String, RenameRequest> lookupCol = lookupTableCol
                     .get(table);
             if (lookupCol != null)
             {
@@ -314,7 +314,7 @@ public class RenameDefinitions
         String[] schemas = {schema, "*"};
         for (String s : schemas)
         {
-            Hashtable<String, Hashtable<String, RenameRequest>> lookupTableCol = lookupSchemaTableCol
+            HashMap<String, HashMap<String, RenameRequest>> lookupTableCol = lookupSchemaTableCol
                     .get(s);
             if (lookupTableCol == null)
                 continue; // Try the * schema.
@@ -322,7 +322,7 @@ public class RenameDefinitions
             String[] tables = {table, "*"};
             for (String t : tables)
             {
-                Hashtable<String, RenameRequest> lookupCol = lookupTableCol
+                HashMap<String, RenameRequest> lookupCol = lookupTableCol
                         .get(t);
                 if (lookupCol == null)
                     continue; // Try the * table or * schema.
@@ -351,13 +351,13 @@ public class RenameDefinitions
         String[] schemas = {schema, "*"};
         for (String s : schemas)
         {
-            Hashtable<String, Hashtable<String, RenameRequest>> lookupTableCol = lookupSchemaTableCol
+            HashMap<String, HashMap<String, RenameRequest>> lookupTableCol = lookupSchemaTableCol
                     .get(s);
             if (lookupTableCol == null)
                 continue;
 
             // Search for this table only (don't match *).
-            Hashtable<String, RenameRequest> lookupCol = lookupTableCol
+            HashMap<String, RenameRequest> lookupCol = lookupTableCol
                     .get(table);
             if (lookupCol == null)
                 continue; // Try the * schema.
@@ -388,7 +388,7 @@ public class RenameDefinitions
     public String getNewSchemaName(String schema, String table)
     {
         // Search for this schema only (don't match *).
-        Hashtable<String, Hashtable<String, RenameRequest>> lookupTableCol = lookupSchemaTableCol
+        HashMap<String, HashMap<String, RenameRequest>> lookupTableCol = lookupSchemaTableCol
                 .get(schema);
         if (lookupTableCol == null)
             return null;
@@ -396,7 +396,7 @@ public class RenameDefinitions
         String[] tables = {table, "*"};
         for (String t : tables)
         {
-            Hashtable<String, RenameRequest> lookupCol = lookupTableCol.get(t);
+            HashMap<String, RenameRequest> lookupCol = lookupTableCol.get(t);
             if (lookupCol == null)
                 continue; // Try the * table.
 
@@ -426,19 +426,19 @@ public class RenameDefinitions
         // Find schema.
         if (!lookupSchemaTableCol.containsKey(rename.getOrigSchema()))
         {
-            Hashtable<String, Hashtable<String, RenameRequest>> lookupTableCol = new Hashtable<String, Hashtable<String, RenameRequest>>();
+            HashMap<String, HashMap<String, RenameRequest>> lookupTableCol = new HashMap<String, HashMap<String, RenameRequest>>();
             lookupSchemaTableCol.put(rename.getOrigSchema(), lookupTableCol);
         }
-        Hashtable<String, Hashtable<String, RenameRequest>> lookupTableCol = lookupSchemaTableCol
+        HashMap<String, HashMap<String, RenameRequest>> lookupTableCol = lookupSchemaTableCol
                 .get(rename.getOrigSchema());
 
         // Find table.
         if (!lookupTableCol.containsKey(rename.getOrigTable()))
         {
-            Hashtable<String, RenameRequest> lookupCol = new Hashtable<String, RenameRequest>();
+            HashMap<String, RenameRequest> lookupCol = new HashMap<String, RenameRequest>();
             lookupTableCol.put(rename.getOrigTable(), lookupCol);
         }
-        Hashtable<String, RenameRequest> lookupCol = lookupTableCol.get(rename
+        HashMap<String, RenameRequest> lookupCol = lookupTableCol.get(rename
                 .getOrigTable());
 
         // Find column.

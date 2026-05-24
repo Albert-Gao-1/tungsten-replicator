@@ -20,13 +20,11 @@
 
 package com.continuent.tungsten.replicator;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
-
-// Not used for now. Removing the warning.
-//import org.apache.log4j.Logger;
 
 import com.continuent.tungsten.replicator.database.Column;
 import com.continuent.tungsten.replicator.database.Table;
@@ -72,9 +70,8 @@ public class Version
 
     private static String constructSelect(String schema, String module)
     {
-        String select = Version.SELECT + schema + "." + TABLE_NAME + " WHERE "
-                + MODULE_COLUMN + " = '" + module + "'";
-        return select;
+        return Version.SELECT + schema + "." + TABLE_NAME + " WHERE "
+                + MODULE_COLUMN + " = ?";
     }
 
     public static Version getVersionFromDB(Statement statement, String schema,
@@ -83,22 +80,21 @@ public class Version
         Version ret = null;
 
         statement.setFetchSize(1);
-        ResultSet rs = null;
 
-        try
+        try (PreparedStatement ps = statement.getConnection().prepareStatement(
+                constructSelect(schema, module)))
         {
-            rs = statement.executeQuery(constructSelect(schema, module));
-            if (rs.next())
+            ps.setString(1, module);
+            try (ResultSet rs = ps.executeQuery())
             {
-                int major = rs.getInt(MAJOR_COLUMN);
-                int minor = rs.getInt(MINOR_COLUMN);
-                String suffix = rs.getString(SUFFIX_COLUMN);
-                ret = new Version(major, minor, suffix);
+                if (rs.next())
+                {
+                    int major = rs.getInt(MAJOR_COLUMN);
+                    int minor = rs.getInt(MINOR_COLUMN);
+                    String suffix = rs.getString(SUFFIX_COLUMN);
+                    ret = new Version(major, minor, suffix);
+                }
             }
-        }
-        finally
-        {
-            rs.close();
         }
         return ret;
     }
@@ -106,45 +102,47 @@ public class Version
     public static void saveVersionToDB(Statement statement, String schema,
             String module, Version version) throws SQLException
     {
-        ResultSet old = null;
-        String sql;
+        boolean exists;
+        try (PreparedStatement checkPs = statement.getConnection().prepareStatement(
+                constructSelect(schema, module)))
+        {
+            checkPs.setString(1, module);
+            try (ResultSet old = checkPs.executeQuery())
+            {
+                exists = old.next();
+            }
+        }
 
-        try
+        if (exists)
         {
-            old = statement.executeQuery(constructSelect(schema, module));
-            if (old.next())
+            String updateSql = "UPDATE " + schema + "." + TABLE_NAME + " SET "
+                    + MAJOR_COLUMN + " = ?, "
+                    + MINOR_COLUMN + " = ?, "
+                    + SUFFIX_COLUMN + " = ? WHERE "
+                    + MODULE_COLUMN + " = ?";
+            try (PreparedStatement ps = statement.getConnection().prepareStatement(updateSql))
             {
-                /* update version row */
-                sql = "UPDATE " + schema + "." + TABLE_NAME + " SET "
-                        + MAJOR_COLUMN + " = " + version.major + ", "
-                        + MINOR_COLUMN + " = " + version.minor + ", "
-                        + SUFFIX_COLUMN + " = '" + version.suffix + "' WHERE "
-                        + MODULE_COLUMN + " = '" + module + "'";
-                // old.updateInt(MAJOR_COLUMN, version.major);
-                // old.updateInt(MINOR_COLUMN, version.minor);
-                // old.updateString(SUFFIX_COLUMN, version.suffix);
-                // old.updateRow();
-            }
-            else
-            {
-                /* insert new version */
-                sql = "INSERT INTO " + schema + "." + TABLE_NAME + " VALUES ('"
-                        + module + "'," + version.major + "," + version.minor
-                        + ",'" + version.suffix + "')";
-                // code below requires CONCUR_UPDATABLE
-                // old.moveToInsertRow();
-                // old.updateString(MODULE_COLUMN, module);
-                // old.updateInt(MAJOR_COLUMN, version.major);
-                // old.updateInt(MINOR_COLUMN, version.minor);
-                // old.updateString(SUFFIX_COLUMN, version.suffix);
-                // old.insertRow();
+                ps.setInt(1, version.major);
+                ps.setInt(2, version.minor);
+                ps.setString(3, version.suffix);
+                ps.setString(4, module);
+                ps.executeUpdate();
             }
         }
-        finally
+        else
         {
-            old.close();
+            String insertSql = "INSERT INTO " + schema + "." + TABLE_NAME
+                    + " (" + MODULE_COLUMN + ", " + MAJOR_COLUMN + ", "
+                    + MINOR_COLUMN + ", " + SUFFIX_COLUMN + ") VALUES (?, ?, ?, ?)";
+            try (PreparedStatement ps = statement.getConnection().prepareStatement(insertSql))
+            {
+                ps.setString(1, module);
+                ps.setInt(2, version.major);
+                ps.setInt(3, version.minor);
+                ps.setString(4, version.suffix);
+                ps.executeUpdate();
+            }
         }
-        statement.execute(sql);
     }
 
     /**

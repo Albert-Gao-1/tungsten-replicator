@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.TreeMap;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
@@ -139,7 +139,7 @@ public class ReplicationServiceManager implements ReplicationServiceManagerMBean
 
         // Make sure we have configurations for the replicators to work with.
         loadServiceConfigurations();
-        Vector<TungstenProperties> remoteServices = new Vector<TungstenProperties>();
+        ArrayList<TungstenProperties> remoteServices = new ArrayList<TungstenProperties>();
 
         // We will start the local services first, and only then will we start
         // remote services.

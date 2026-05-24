@@ -143,7 +143,7 @@ public class ConsistencyCheckMD5 extends ConsistencyCheckAbstract
     {
         if (columns != null && columns.size() > 0)
         {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
 
             sb.append(conn.getDatabaseObjectName(columns.get(0).getName()));
             for (int i = 1; i < columns.size(); i++)
@@ -179,7 +179,7 @@ public class ConsistencyCheckMD5 extends ConsistencyCheckAbstract
     {
         if (columns != null && columns.size() > 0)
         {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
 
             if (checkColumnNames || checkColumnTypes)
             {
@@ -232,7 +232,7 @@ public class ConsistencyCheckMD5 extends ConsistencyCheckAbstract
         // First SELECT selects a page from the table according to limit
         // Second SELECT performs MD5 digest on its "concatenated" values.
         //
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("SELECT ");
         sb.append("COUNT(*) AS this_cnt,");
         sb.append(" IFNULL("); // TREP-67, TREP-268
@@ -359,7 +359,7 @@ public class ConsistencyCheckMD5 extends ConsistencyCheckAbstract
             keyColumns = columnsMySQL(conn, table.getPrimaryKey().getColumns());
         }
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("SELECT ");
         sb.append("COUNT(*) AS this_cnt,");
         sb.append(" COALESCE("); // TREP-67, TREP-268

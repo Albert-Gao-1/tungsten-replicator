@@ -364,7 +364,7 @@ public class PostgreSqlDumpAgent extends AbstractBackupAgent
         // Generate URL.
         if (url == null)
         {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             sb.append("jdbc:postgresql://");
             sb.append(host);
             if (port > 0)
@@ -422,7 +422,7 @@ public class PostgreSqlDumpAgent extends AbstractBackupAgent
      */
     private String join(String[] s, String delimiter)
     {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         for (int i = 0; i < s.length; i++)
         {
             buffer.append("'");

@@ -69,7 +69,7 @@ public class PreparedStatementHolder
      */
     public String toString()
     {
-        StringBuffer sb = new StringBuffer(this.getClass().getSimpleName());
+        StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
         sb.append(" key=").append(key);
         sb.append(" query=").append(query);
         return sb.toString();

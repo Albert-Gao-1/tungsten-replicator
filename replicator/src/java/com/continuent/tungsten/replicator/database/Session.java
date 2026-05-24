@@ -75,7 +75,7 @@ public class Session
      */
     public String toString()
     {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append(this.getClass().getSimpleName());
         sb.append(" identifier=").append(identifier);
         sb.append(" login=").append(login);

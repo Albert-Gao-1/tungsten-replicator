@@ -168,7 +168,7 @@ public class OneRowChange implements Serializable
          */
         public String toString()
         {
-            StringBuffer sb = new StringBuffer(this.getClass().getSimpleName());
+            StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
             sb.append(" name=").append(name);
             sb.append(" index=").append(index);
             sb.append(" type=").append(type);
@@ -199,7 +199,7 @@ public class OneRowChange implements Serializable
 
         public String toString()
         {
-            StringBuffer sb = new StringBuffer(this.getClass().getSimpleName());
+            StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
             sb.append(" value=").append(value);
             return sb.toString();
         }

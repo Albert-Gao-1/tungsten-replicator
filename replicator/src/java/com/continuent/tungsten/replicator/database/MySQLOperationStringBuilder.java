@@ -40,7 +40,7 @@ public class MySQLOperationStringBuilder
     private int          inputIndex;
 
     // Output string buffer.
-    private StringBuffer outputString = new StringBuffer();
+    private StringBuilder outputString = new StringBuilder();
 
     /** Create instance. */
     public MySQLOperationStringBuilder(int maxOutputLength)
@@ -55,7 +55,7 @@ public class MySQLOperationStringBuilder
         inputString = input;
         inputIndex = 0;
         inputLength = input.length();
-        outputString = new StringBuffer();
+        outputString = new StringBuilder();
 
         // Loop until we run out of input or output.
         char nextChar;

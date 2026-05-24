@@ -45,6 +45,6 @@ public interface Filter extends ReplicatorPlugin
      * @throws InterruptedException Must be thrown if the filter is interrupted
      *             or the replicator may hang
      */
-    public ReplDBMSEvent filter(ReplDBMSEvent event)
+    ReplDBMSEvent filter(ReplDBMSEvent event)
             throws ReplicatorException, InterruptedException;
 }

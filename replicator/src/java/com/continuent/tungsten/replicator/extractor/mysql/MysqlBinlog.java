@@ -24,7 +24,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.BitSet;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.zip.CRC32;
 
 import org.apache.log4j.Logger;
@@ -220,7 +220,7 @@ public class MysqlBinlog
     public static final int                     OPTION_RELAXED_UNIQUE_CHECKS        = 1 << 27;
 
     // SQL_MODE values.
-    public static final Hashtable<Long, String> sql_modes                           = new Hashtable<Long, String>();
+    public static final HashMap<Long, String> sql_modes                           = new HashMap<Long, String>();
     static
     {
         sql_modes.put(Long.valueOf(0x1), "REAL_AS_FLOAT");

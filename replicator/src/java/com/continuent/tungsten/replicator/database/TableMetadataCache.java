@@ -150,7 +150,7 @@ public class TableMetadataCache implements CacheResourceManager<Table>
     // Generate a key for table.
     private String generateKey(String schema, String tableName)
     {
-        StringBuffer key = new StringBuffer();
+        StringBuilder key = new StringBuilder();
         key.append(schema);
         key.append(".");
         key.append(tableName);

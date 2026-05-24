@@ -28,7 +28,14 @@ import java.util.TimeZone;
  */
 public class DateTimeValuePartitioner implements ValuePartitioner
 {
-    SimpleDateFormat formatter = new SimpleDateFormat();
+    static final ThreadLocal<SimpleDateFormat> formatter = new ThreadLocal<SimpleDateFormat>()
+    {
+        @Override
+        protected SimpleDateFormat initialValue()
+        {
+            return new SimpleDateFormat();
+        }
+    };
 
     /**
      * {@inheritDoc}
@@ -37,7 +44,7 @@ public class DateTimeValuePartitioner implements ValuePartitioner
      */
     public void setFormat(String format)
     {
-        formatter.applyPattern(format);
+        formatter.get().applyPattern(format);
     }
 
     /**
@@ -47,7 +54,7 @@ public class DateTimeValuePartitioner implements ValuePartitioner
      */
     public void setTimeZone(TimeZone tz)
     {
-        formatter.setTimeZone(tz);
+        formatter.get().setTimeZone(tz);
     }
 
     /**
@@ -57,6 +64,6 @@ public class DateTimeValuePartitioner implements ValuePartitioner
      */
     public String partition(Object value)
     {
-        return formatter.format(value);
+        return formatter.get().format(value);
     }
 }

@@ -506,7 +506,7 @@ public class Pipeline implements ReplicatorPlugin
     {
         synchronized (offlineRequests)
         {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (String request : offlineRequests.keySet())
             {
                 if (sb.length() > 0)

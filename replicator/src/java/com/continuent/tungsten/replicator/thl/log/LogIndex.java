@@ -274,7 +274,7 @@ public class LogIndex
     @Override
     public String toString()
     {
-        StringBuffer ind = new StringBuffer();
+        StringBuilder ind = new StringBuilder();
         for (LogIndexEntry entry : index)
         {
             ind.append(entry);

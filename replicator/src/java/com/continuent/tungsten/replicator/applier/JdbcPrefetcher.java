@@ -182,7 +182,7 @@ public class JdbcPrefetcher implements RawApplier
      *            mode is ASSIGNMENT, "x IS ?" is constructed instead of "x =
      *            ?".
      */
-    protected void printColumnSpec(StringBuffer stmt,
+    protected void printColumnSpec(StringBuilder stmt,
             ArrayList<OneRowChange.ColumnSpec> cols,
             ArrayList<OneRowChange.ColumnVal> keyValues, PrintMode mode,
             String separator)
@@ -750,11 +750,11 @@ public class JdbcPrefetcher implements RawApplier
      *            used.
      * @return Constructed SQL statement with "?" instead of real values.
      */
-    private StringBuffer buildSelectQuery(String schemaName, String tableName,
+    private StringBuilder buildSelectQuery(String schemaName, String tableName,
             ArrayList<OneRowChange.ColumnSpec> keys,
             ArrayList<OneRowChange.ColumnVal> keyValues)
     {
-        StringBuffer stmt = new StringBuffer();
+        StringBuilder stmt = new StringBuilder();
         stmt.append("SELECT * FROM ");
         stmt.append(conn.getDatabaseObjectName(schemaName) + "."
                 + conn.getDatabaseObjectName(tableName));
@@ -831,7 +831,7 @@ public class JdbcPrefetcher implements RawApplier
                 return;
             }
 
-            StringBuffer stmt = null;
+            StringBuilder stmt = null;
 
             ArrayList<OneRowChange.ColumnSpec> key = oneRowChange.getKeySpec();
 
@@ -923,7 +923,7 @@ public class JdbcPrefetcher implements RawApplier
      * @see #maxSQLLogLength
      * @param stmt SQL template for PreparedStatement
      */
-    private String logFailedRowChangeSQL(StringBuffer stmt,
+    private String logFailedRowChangeSQL(StringBuilder stmt,
             OneRowChange oneRowChange)
     {
         try

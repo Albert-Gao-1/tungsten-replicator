@@ -186,7 +186,7 @@ public class Key
      */
     public String toString()
     {
-        StringBuffer sb = new StringBuffer("Key name=");
+        StringBuilder sb = new StringBuilder("Key name=");
         sb.append(name);
         sb.append(" type=");
         switch (this.type)

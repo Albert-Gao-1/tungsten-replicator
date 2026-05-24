@@ -1717,7 +1717,7 @@ public class OpenReplicatorManagerCtrl
     {
         System.out.println(msg);
         if (verbose && t != null)
-            t.printStackTrace();
+            logger.error("Fatal error: " + msg, t);
         System.exit(1);
     }
 

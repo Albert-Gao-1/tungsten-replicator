@@ -147,7 +147,7 @@ public class EventSchemaStatistics
     // Return a nice set of counts for diagnostic purposes.
     public String toString()
     {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("{");
         for (String schema : dbMap.keySet())
         {

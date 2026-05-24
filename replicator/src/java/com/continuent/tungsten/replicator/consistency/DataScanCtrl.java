@@ -1491,7 +1491,7 @@ public class DataScanCtrl
     {
         System.out.println(msg);
         if (t != null)
-            t.printStackTrace();
+            logger.error("Fatal error: " + msg, t);
         fail();
     }
 

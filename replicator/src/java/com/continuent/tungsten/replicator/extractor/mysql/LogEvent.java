@@ -666,7 +666,7 @@ public abstract class LogEvent
 
     protected static String hexdump(byte[] buffer, int offset)
     {
-        StringBuffer dump = new StringBuffer();
+        StringBuilder dump = new StringBuilder();
         if ((buffer.length - offset) > 0)
         {
             dump.append(String.format("%02x", buffer[offset]));
@@ -681,7 +681,7 @@ public abstract class LogEvent
 
     protected String hexdump(byte[] buffer, int offset, int length)
     {
-        StringBuffer dump = new StringBuffer();
+        StringBuilder dump = new StringBuilder();
 
         if (buffer.length >= offset + length)
         {

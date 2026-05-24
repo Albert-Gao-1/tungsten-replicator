@@ -521,7 +521,7 @@ public abstract class AbstractDatabase implements Database
         if (columns.size() == 0)
             return "";
 
-        StringBuffer retval = new StringBuffer(" WHERE ");
+        StringBuilder retval = new StringBuilder(" WHERE ");
 
         Iterator<Column> i = columns.iterator();
         boolean comma = false;
@@ -538,7 +538,7 @@ public abstract class AbstractDatabase implements Database
 
     private String buildCommaAssign(ArrayList<Column> columns)
     {
-        StringBuffer retval = new StringBuffer();
+        StringBuilder retval = new StringBuilder();
         Iterator<Column> i = columns.iterator();
         boolean comma = false;
         while (i.hasNext())
@@ -554,7 +554,7 @@ public abstract class AbstractDatabase implements Database
 
     private String buildCommaValues(ArrayList<Column> columns)
     {
-        StringBuffer retval = new StringBuffer();
+        StringBuilder retval = new StringBuilder();
         for (int i = 0; i < columns.size(); i++)
         {
             if (i > 0)
@@ -686,7 +686,7 @@ public abstract class AbstractDatabase implements Database
     public int update(Table table, ArrayList<Column> whereClause,
             ArrayList<Column> values) throws SQLException
     {
-        StringBuffer sb = new StringBuffer("UPDATE ");
+        StringBuilder sb = new StringBuilder("UPDATE ");
         sb.append(table.getSchema());
         sb.append(".");
         sb.append(table.getName());
@@ -1295,7 +1295,7 @@ public abstract class AbstractDatabase implements Database
         // recognize. Very sad.
         // Have to compose own INSERT statement as a workaround which might be
         // not DBMS-portable.
-        StringBuffer insert = new StringBuffer(256);
+        StringBuilder insert = new StringBuilder(256);
         insert.append("INSERT INTO ");
         insert.append(ct.getSchema());
         insert.append('.');

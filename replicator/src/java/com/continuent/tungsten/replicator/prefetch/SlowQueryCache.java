@@ -281,7 +281,7 @@ public class SlowQueryCache
      */
     public String toString()
     {
-        StringBuffer sb = new StringBuffer(this.getClass().getSimpleName());
+        StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
         sb.append(" slowQueryCacheSize=").append(slowQueryCacheSize);
         sb.append(" slowQueryRows=").append(slowQueryRows);
         sb.append(" slowQuerySelectivity=").append(slowQuerySelectivity);

@@ -123,7 +123,7 @@ public abstract class ConsistencyCheckAbstract implements ConsistencyCheck
 
     public String toString()
     {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("ID: ");
         sb.append(id);
         sb.append("; TABLE: ");

@@ -51,7 +51,7 @@ public class MySQLLoader extends JdbcLoader
     {
         if (url == null)
         {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             sb.append("jdbc:mysql:thin://");
             sb.append(uri.getHost());
             if (uri.getPort() > 0)

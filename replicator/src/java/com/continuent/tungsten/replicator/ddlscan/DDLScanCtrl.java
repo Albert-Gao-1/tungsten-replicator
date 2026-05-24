@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.sql.SQLException;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Properties;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -42,6 +42,8 @@ import com.continuent.tungsten.replicator.conf.ReplicatorConf;
 import com.continuent.tungsten.replicator.conf.ReplicatorRuntimeConf;
 import com.continuent.tungsten.replicator.management.ReplicationServiceManager;
 
+import org.apache.log4j.Logger;
+
 /**
  * This class defines a DDLScanCtrl that implements a utility to access DDLScan
  * methods. See the printHelp() command for a description of current commands.
@@ -51,6 +53,8 @@ import com.continuent.tungsten.replicator.management.ReplicationServiceManager;
  */
 public class DDLScanCtrl
 {
+    private static Logger logger = Logger.getLogger(DDLScanCtrl.class);
+
     /**
      * Default path to replicator.properties if user not specified other.
      */
@@ -80,7 +84,7 @@ public class DDLScanCtrl
 
     private String                templateFile      = null;
     private String                additionalPath    = null;
-    Hashtable<String, String>     templateOptions   = null;
+    HashMap<String, String>     templateOptions   = null;
     private String                outFile           = null;
 
     private DDLScan               scanner           = null;
@@ -95,7 +99,7 @@ public class DDLScanCtrl
     public DDLScanCtrl(String url, String user, String pass, String db,
             String tables, String tableFile, String templateFile,
             String outFile, String renameDefinitions,
-            Hashtable<String, String> templateOptions, String additionalPath)
+            HashMap<String, String> templateOptions, String additionalPath)
             throws Exception
     {
         // JDBC connection string.
@@ -327,7 +331,7 @@ public class DDLScanCtrl
             String renameDefinitions = null;
 
             // Options to pass to template.
-            Hashtable<String, String> templateOptions = new Hashtable<String, String>();
+            HashMap<String, String> templateOptions = new HashMap<String, String>();
 
             // Parse command line arguments.
             ArgvIterator argvIterator = new ArgvIterator(argv);
@@ -622,7 +626,7 @@ public class DDLScanCtrl
     {
         System.out.println(msg);
         if (t != null)
-            t.printStackTrace();
+            logger.error("Fatal error: " + msg, t);
         fail();
     }
 

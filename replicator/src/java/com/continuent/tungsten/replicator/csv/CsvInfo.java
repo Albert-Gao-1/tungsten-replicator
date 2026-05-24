@@ -116,7 +116,7 @@ public class CsvInfo
      */
     public String getBaseColumnList()
     {
-        StringBuffer colNames = new StringBuffer();
+        StringBuilder colNames = new StringBuilder();
         for (Column col : baseTableMetadata.getAllColumns())
         {
             if (colNames.length() > 0)
@@ -132,7 +132,7 @@ public class CsvInfo
      */
     public String getBaseColumnList(SqlWrapper connection)
     {
-        StringBuffer colNames = new StringBuffer();
+        StringBuilder colNames = new StringBuilder();
         for (Column col : baseTableMetadata.getAllColumns())
         {
             if (colNames.length() > 0)
@@ -172,7 +172,7 @@ public class CsvInfo
      */
     public String getPKColumnList()
     {
-        StringBuffer keyColList = new StringBuffer();
+        StringBuilder keyColList = new StringBuilder();
         List<String> pkeys = this.getPKColumns();
         for (int i = 0; i < pkeys.size(); i++)
         {
@@ -189,7 +189,7 @@ public class CsvInfo
      */
     public String getPKColumnList(SqlWrapper connection)
     {
-        StringBuffer keyColList = new StringBuffer();
+        StringBuilder keyColList = new StringBuilder();
         List<String> pkeys = this.getPKColumns();
         for (int i = 0; i < pkeys.size(); i++)
         {
@@ -219,7 +219,7 @@ public class CsvInfo
      */
     public String getPKColumnJoinList(String stagePrefix, String basePrefix)
     {
-        StringBuffer joinBuf = new StringBuffer();
+        StringBuilder joinBuf = new StringBuilder();
         List<String> pkeys = this.getPKColumns();
         for (int i = 0; i < pkeys.size(); i++)
         {
@@ -240,7 +240,7 @@ public class CsvInfo
     public String getPKColumnJoinList(SqlWrapper connection,
             String stagePrefix, String basePrefix)
     {
-        StringBuffer joinBuf = new StringBuffer();
+        StringBuilder joinBuf = new StringBuilder();
         List<String> pkeys = this.getPKColumns();
         for (int i = 0; i < pkeys.size(); i++)
         {

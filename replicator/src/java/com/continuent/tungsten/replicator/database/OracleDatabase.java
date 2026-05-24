@@ -28,7 +28,7 @@ import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class OracleDatabase extends AbstractDatabase
 {
     private static final String            TUNGSTEN_CHANGE_SET_PREFIX = "TUNGSTEN_CS_";
     private static Logger                  logger                     = Logger.getLogger(OracleDatabase.class);
-    private Hashtable<Integer, Table>      tablesCache;
+    private HashMap<Integer, Table>      tablesCache;
     private String                         colList;
 
     /** A list of words that can't be used in table and column names. */
@@ -88,7 +88,7 @@ public class OracleDatabase extends AbstractDatabase
         dbms = DBMS.ORACLE;
         // Hard code the driver so it gets loaded correctly.
         dbDriver = "oracle.jdbc.driver.OracleDriver";
-        tablesCache = new Hashtable<Integer, Table>();
+        tablesCache = new HashMap<Integer, Table>();
     }
 
     /**
@@ -462,7 +462,7 @@ public class OracleDatabase extends AbstractDatabase
     {
         Table t = null;
         Column c;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         // Check if the table already exists in the table cache
         t = tablesCache.get(Integer.valueOf(tableID));

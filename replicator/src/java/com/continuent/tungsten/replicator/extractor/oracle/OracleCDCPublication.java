@@ -60,7 +60,7 @@ public class OracleCDCPublication
 
     public String getColumnList()
     {
-        StringBuffer colList = new StringBuffer();
+        StringBuilder colList = new StringBuilder();
         for (Iterator<String> iterator = columns.iterator(); iterator
                 .hasNext();)
         {

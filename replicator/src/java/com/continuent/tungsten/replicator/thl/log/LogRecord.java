@@ -328,7 +328,7 @@ public class LogRecord
      */
     public String toString()
     {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append(this.getClass().getSimpleName());
         sb.append(": offset=").append(offset);
         if (data == null)

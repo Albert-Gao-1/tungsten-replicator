@@ -271,7 +271,7 @@ public class OracleCDCExtractor implements RawExtractor
             Map<Long, OracleCDCPublication> publications = src
                     .getPublications();
 
-            StringBuffer subscribeStmt = new StringBuffer();
+            StringBuilder subscribeStmt = new StringBuilder();
             for (OracleCDCPublication pub : publications.values())
             {
                 if (changeSets.remove(pub.getPublicationName()))
@@ -435,7 +435,7 @@ public class OracleCDCExtractor implements RawExtractor
                     if (logger.isDebugEnabled())
                     {
                         logger.debug("Receiving data");
-                        StringBuffer buffer = new StringBuffer();
+                        StringBuilder buffer = new StringBuilder();
 
                         for (int i = 1; i <= resultset.getMetaData()
                                 .getColumnCount(); i++)

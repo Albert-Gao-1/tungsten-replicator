@@ -43,10 +43,38 @@ public class DefaultCsvDataFormat implements CsvDataFormat
     protected TimeZone       basetimezone;
 
     // Formatting support.
-    private SimpleDateFormat dateFormatter;
-    private SimpleDateFormat datetimeFormatter;
-    private SimpleDateFormat timestampFormatter;
-    private SimpleDateFormat timeFormatter;
+    private static final ThreadLocal<SimpleDateFormat> dateFormatter = new ThreadLocal<SimpleDateFormat>()
+    {
+        @Override
+        protected SimpleDateFormat initialValue()
+        {
+            return new SimpleDateFormat();
+        }
+    };
+    private static final ThreadLocal<SimpleDateFormat> datetimeFormatter = new ThreadLocal<SimpleDateFormat>()
+    {
+        @Override
+        protected SimpleDateFormat initialValue()
+        {
+            return new SimpleDateFormat();
+        }
+    };
+    private static final ThreadLocal<SimpleDateFormat> timestampFormatter = new ThreadLocal<SimpleDateFormat>()
+    {
+        @Override
+        protected SimpleDateFormat initialValue()
+        {
+            return new SimpleDateFormat();
+        }
+    };
+    private static final ThreadLocal<SimpleDateFormat> timeFormatter = new ThreadLocal<SimpleDateFormat>()
+    {
+        @Override
+        protected SimpleDateFormat initialValue()
+        {
+            return new SimpleDateFormat();
+        }
+    };
 
     /**
      * {@inheritDoc}
@@ -67,29 +95,17 @@ public class DefaultCsvDataFormat implements CsvDataFormat
     public void prepare()
     {
         // Dates are formatted with the date only.
-        dateFormatter = new SimpleDateFormat();
-        dateFormatter.setTimeZone(timezone);
-        dateFormatter.applyPattern("yyyy-MM-dd");
+        dateFormatter.get().setTimeZone(timezone);
+        dateFormatter.get().applyPattern("yyyy-MM-dd");
 
-        // Datetimes are formatted with date and time.
-        // Note that there is no subsecond precision yet
-        // Datetimes are not timezone aware so they get replicated
-        // as values in their timezone, so the timezone should not
-        // not be reapplied
+        datetimeFormatter.get().setTimeZone(basetimezone);
+        datetimeFormatter.get().applyPattern("yyyy-MM-dd HH:mm:ss");
 
-        datetimeFormatter = new SimpleDateFormat();
-        datetimeFormatter.setTimeZone(basetimezone);
-        datetimeFormatter.applyPattern("yyyy-MM-dd HH:mm:ss");
+        timestampFormatter.get().setTimeZone(timezone);
+        timestampFormatter.get().applyPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
-        // Timestamps are formatted to full precision.
-        timestampFormatter = new SimpleDateFormat();
-        timestampFormatter.setTimeZone(timezone);
-        timestampFormatter.applyPattern("yyyy-MM-dd HH:mm:ss.SSS");
-
-        // Time values are formatted to seconds with no date.
-        timeFormatter = new SimpleDateFormat();
-        timeFormatter.setTimeZone(timezone);
-        timeFormatter.applyPattern("HH:mm:ss");
+        timeFormatter.get().setTimeZone(timezone);
+        timeFormatter.get().applyPattern("HH:mm:ss");
     }
 
     /**
@@ -111,24 +127,24 @@ public class DefaultCsvDataFormat implements CsvDataFormat
         {
             if (javaType == Types.TIME)
             {
-                return timeFormatter.format((Timestamp) value);
+                return timeFormatter.get().format((Timestamp) value);
             }
             else if (javaType == Types.DATE)
             {
-                return datetimeFormatter.format((Timestamp) value);
+                return datetimeFormatter.get().format((Timestamp) value);
             }
             else
             {
-                return timestampFormatter.format((Timestamp) value);
+                return timestampFormatter.get().format((Timestamp) value);
             }
         }
         else if (value instanceof java.sql.Date)
         {
-            return dateFormatter.format((java.sql.Date) value);
+            return dateFormatter.get().format((java.sql.Date) value);
         }
         else if (value instanceof java.sql.Time)
         {
-            return timeFormatter.format((java.sql.Time) value);
+            return timeFormatter.get().format((java.sql.Time) value);
         }
         else if (javaType == Types.BLOB
                 || (javaType == Types.NULL && value instanceof SerialBlob))
@@ -144,7 +160,7 @@ public class DefaultCsvDataFormat implements CsvDataFormat
                 InputStream blobStream = null;
                 try
                 {
-                    StringBuffer sb = new StringBuffer();
+                    StringBuilder sb = new StringBuilder();
                     blobStream = blob.getBinaryStream();
                     int nextByte = -1;
                     while ((nextByte = blobStream.read()) > -1)

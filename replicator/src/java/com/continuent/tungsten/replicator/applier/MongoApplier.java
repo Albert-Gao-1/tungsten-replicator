@@ -317,7 +317,7 @@ public class MongoApplier implements RawApplier
             if (value instanceof Timestamp)
             {
                 Timestamp timestamp = ((Timestamp) value);
-                StringBuffer time = new StringBuffer(new Time(
+                StringBuilder time = new StringBuilder(new Time(
                         timestamp.getTime()).toString());
                 if (timestamp.getNanos() > 0)
                 {

@@ -23,7 +23,7 @@ package com.continuent.tungsten.replicator.filter;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
@@ -61,7 +61,7 @@ public class ColumnNameFilter implements Filter
     // order to be able to drop all table definitions at once if a DROP DATABASE
     // is trapped). Filling metadata cache is done in a lazy way. It will be
     // updated only when a table is used for the first time by a row event.
-    private Hashtable<String, Hashtable<String, Table>> metadataCache;
+    private HashMap<String, HashMap<String, Table>> metadataCache;
 
     // Connection information.
     private SqlDataSource                               dataSourceImpl;
@@ -99,7 +99,7 @@ public class ColumnNameFilter implements Filter
         logger.info(msg += "will be queried from the DBMS");
 
         // Initialize cache for tables.
-        metadataCache = new Hashtable<String, Hashtable<String, Table>>();
+        metadataCache = new HashMap<String, HashMap<String, Table>>();
 
         // Locate our data source that we use to pick up metadata and create
         // connection.
@@ -203,7 +203,7 @@ public class ColumnNameFilter implements Filter
     {
         if (schemaName != null)
         {
-            Hashtable<String, Table> tableCache = metadataCache.get(schemaName);
+            HashMap<String, Table> tableCache = metadataCache.get(schemaName);
             if (tableCache != null && tableCache.remove(tableName) != null)
             {
                 if (logger.isDebugEnabled())
@@ -216,7 +216,7 @@ public class ColumnNameFilter implements Filter
         }
         else
         {
-            Hashtable<String, Table> tableCache = metadataCache.get(defaultDB);
+            HashMap<String, Table> tableCache = metadataCache.get(defaultDB);
             if (tableCache != null && tableCache.remove(tableName) != null)
                 logger.info("ALTER TABLE detected - Removing table metadata for '"
                         + defaultDB + "." + tableName + "'");
@@ -236,10 +236,10 @@ public class ColumnNameFilter implements Filter
         {
             // Nothing defined yet in this database
             metadataCache.put(orc.getSchemaName(),
-                    new Hashtable<String, Table>());
+                    new HashMap<String, Table>());
         }
 
-        Hashtable<String, Table> dbCache = metadataCache.get(orc
+        HashMap<String, Table> dbCache = metadataCache.get(orc
                 .getSchemaName());
 
         if (!dbCache.containsKey(tableName) || orc.getTableId() == -1

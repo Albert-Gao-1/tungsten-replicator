@@ -502,7 +502,7 @@ public class PrefetchApplier implements RawApplier
         {
             if (slowQueryCache != null)
             {
-                StringBuffer stats = new StringBuffer("Prefetch statistics:");
+                StringBuilder stats = new StringBuilder("Prefetch statistics:");
                 stats.append(" events=").append(events);
                 stats.append(" statements=").append(statements);
                 stats.append(" rowUpdates=").append(rowUpdates);
@@ -866,7 +866,7 @@ public class PrefetchApplier implements RawApplier
             if (logger.isDebugEnabled())
             {
                 // Show values we are about to use.
-                StringBuffer sb = new StringBuffer();
+                StringBuilder sb = new StringBuilder();
                 sb.append("Executing index prefetch: key=").append(key);
                 sb.append(" values=[");
                 List<Column> columns = keySelect.getKey().getColumns();
@@ -967,7 +967,7 @@ public class PrefetchApplier implements RawApplier
         RbrTableChangeSet tableChangeSet = new RbrTableChangeSet(oneRowChange);
         if (logger.isDebugEnabled())
         {
-            StringBuffer sb = new StringBuffer(
+            StringBuilder sb = new StringBuilder(
                     "Handling table change set: schema=");
             sb.append(tableChangeSet.getSchemaName());
             sb.append(" table=").append(tableChangeSet.getTableName());

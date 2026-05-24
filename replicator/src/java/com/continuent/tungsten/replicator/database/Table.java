@@ -336,7 +336,7 @@ public class Table
      */
     public String toString()
     {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("Table name=");
         sb.append(this.schema).append(".").append(this.name);
         sb.append(" (");
@@ -357,7 +357,7 @@ public class Table
      */
     public String toExtendedString()
     {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append(this.toString());
         buf.append(" columns=");
         buf.append(listColumns(allColumns));
@@ -376,7 +376,7 @@ public class Table
     // Print a list of column names.
     private String listColumns(List<Column> cols)
     {
-        StringBuffer colNames = new StringBuffer();
+        StringBuilder colNames = new StringBuilder();
         colNames.append("(");
         for (int i = 0; i < cols.size(); i++)
         {

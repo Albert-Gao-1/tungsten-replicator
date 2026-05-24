@@ -141,7 +141,7 @@ public class MySQLCommentEditor implements SqlCommentEditor
         // Processing for CREATE PROCEDURE/FUNCTION -- add a COMMENT.
         // Following regex splits on line boundaries.
         String[] lines = statement.split("(?m)$");
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         CreateProcedureStage stage = CreateProcedureStage.CREATE;
         int parentheses = 0;

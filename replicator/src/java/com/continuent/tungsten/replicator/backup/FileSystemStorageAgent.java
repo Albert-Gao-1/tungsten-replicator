@@ -754,7 +754,7 @@ public class FileSystemStorageAgent implements StorageAgent
     // Creates an error message.
     protected String formatErrorMessage(String message, URI uri, File file)
     {
-        StringBuffer sb = new StringBuffer(message);
+        StringBuilder sb = new StringBuilder(message);
         sb.append(":");
         if (uri != null)
         {

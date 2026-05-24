@@ -516,7 +516,7 @@ public class OpenReplicatorManager extends NotificationBroadcasterSupport
                 // This is just a warning. We received an event that is
                 // inappropriate for the current state.
                 TransitionNotFoundException e = (TransitionNotFoundException) t;
-                StringBuffer msg = new StringBuffer();
+                StringBuilder msg = new StringBuilder();
                 msg.append("Received irrelevant event for current state: state=");
                 msg.append(e.getState().getName());
                 msg.append(" event=");
@@ -531,7 +531,7 @@ public class OpenReplicatorManager extends NotificationBroadcasterSupport
                 // A transition could not complete and rolled back to the
                 // original state.
                 TransitionRollbackException e = (TransitionRollbackException) t;
-                StringBuffer msg = new StringBuffer();
+                StringBuilder msg = new StringBuilder();
                 msg.append("State transition could not complete and was rolled back: state=");
                 msg.append(e.getTransition().getInput().getName());
                 msg.append(" transition=");
@@ -548,7 +548,7 @@ public class OpenReplicatorManager extends NotificationBroadcasterSupport
                 // A transition failed, causing the replicator to go into the
                 // OFFLINE:ERROR state.
                 TransitionFailureException e = (TransitionFailureException) t;
-                StringBuffer msg = new StringBuffer();
+                StringBuilder msg = new StringBuilder();
                 msg.append("State transition failed causing emergency recovery: state=");
                 msg.append(e.getTransition().getInput().getName());
                 msg.append(" transition=");

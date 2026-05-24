@@ -153,7 +153,7 @@ public class ChunksGeneratorThread extends Thread
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            logger.error("Unexpected error in chunk generator thread", e);
         }
     }
 
@@ -173,7 +173,7 @@ public class ChunksGeneratorThread extends Thread
         }
         catch (ReplicatorException e)
         {
-            e.printStackTrace();
+            logger.error("Failed to connect to data source", e);
         }
 
         try
@@ -182,7 +182,7 @@ public class ChunksGeneratorThread extends Thread
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
+            logger.error("Failed to connect to database", e);
         }
 
         // Check whether we have to use a chunk definition file
@@ -196,11 +196,11 @@ public class ChunksGeneratorThread extends Thread
             }
             catch (IOException e)
             {
-                e.printStackTrace();
+                logger.error("Failed to parse chunk definition file", e);
             }
             catch (ReplicatorException e)
             {
-                e.printStackTrace();
+                logger.error("Failed to parse chunk definition file", e);
             }
 
             LinkedList<ChunkRequest> chunksDefinitions = chunkDefinition
@@ -227,15 +227,21 @@ public class ChunksGeneratorThread extends Thread
                     }
                     catch (SQLException e)
                     {
-                        e.printStackTrace();
+                        logger.error("Failed to process table "
+                                + chunkRequest.getSchema() + "."
+                                + chunkRequest.getTable(), e);
                     }
                     catch (ReplicatorException e)
                     {
-                        e.printStackTrace();
+                        logger.error("Failed to process table "
+                                + chunkRequest.getSchema() + "."
+                                + chunkRequest.getTable(), e);
                     }
                     catch (InterruptedException e)
                     {
-                        e.printStackTrace();
+                        logger.error("Interrupted while processing table "
+                                + chunkRequest.getSchema() + "."
+                                + chunkRequest.getTable(), e);
                     }
                 }
                 else if (chunkRequest.getSchema() != null)
@@ -283,7 +289,7 @@ public class ChunksGeneratorThread extends Thread
             }
             catch (InterruptedException e)
             {
-                e.printStackTrace();
+                logger.error("Failed to post job complete request", e);
             }
         }
 
@@ -319,7 +325,7 @@ public class ChunksGeneratorThread extends Thread
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            logger.error("Failed to generate chunks for schema " + schemaName, e);
 
         }
     }
@@ -537,7 +543,7 @@ public class ChunksGeneratorThread extends Thread
                 }
                 catch (SQLException e)
                 {
-                    e.printStackTrace();
+                    logger.error("Failed to close result set", e);
                 }
             }
             if (st != null)
@@ -548,7 +554,7 @@ public class ChunksGeneratorThread extends Thread
                 }
                 catch (SQLException e)
                 {
-                    e.printStackTrace();
+                    logger.error("Failed to close statement", e);
                 }
             }
         }
@@ -638,7 +644,7 @@ public class ChunksGeneratorThread extends Thread
                 }
                 catch (SQLException e)
                 {
-                    e.printStackTrace();
+                    logger.error("Failed to close result set", e);
                 }
             }
             if (st != null)
@@ -649,7 +655,7 @@ public class ChunksGeneratorThread extends Thread
                 }
                 catch (SQLException e)
                 {
-                    e.printStackTrace();
+                    logger.error("Failed to close statement", e);
                 }
             }
         }
@@ -677,7 +683,7 @@ public class ChunksGeneratorThread extends Thread
         // index
         // than to try to use a query based on rownum
 
-        StringBuffer sqlBuf = new StringBuffer("SELECT MIN(");
+        StringBuilder sqlBuf = new StringBuilder("SELECT MIN(");
         sqlBuf.append(pkName);
         sqlBuf.append(") as min, MAX(");
         sqlBuf.append(pkName);
@@ -703,7 +709,7 @@ public class ChunksGeneratorThread extends Thread
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
+            logger.error("Failed to prepare statement for varchar PK chunking", e);
         }
 
         try
@@ -723,7 +729,7 @@ public class ChunksGeneratorThread extends Thread
                 }
                 catch (SQLException e)
                 {
-                    e.printStackTrace();
+                    logger.error("Failed to execute varchar PK chunking query", e);
                 }
                 finally
                 {
@@ -733,7 +739,7 @@ public class ChunksGeneratorThread extends Thread
                     }
                     catch (SQLException e)
                     {
-                        e.printStackTrace();
+                        logger.error("Failed to close result set", e);
                     }
                 }
             }
@@ -746,7 +752,7 @@ public class ChunksGeneratorThread extends Thread
             }
             catch (SQLException e)
             {
-                e.printStackTrace();
+                logger.error("Failed to close prepared statement", e);
             }
         }
     }
@@ -919,8 +925,8 @@ public class ChunksGeneratorThread extends Thread
         String fqnTable = connection.getDatabaseObjectName(table.getSchema())
                 + '.' + connection.getDatabaseObjectName(table.getName());
 
-        StringBuffer sqlBuffer = new StringBuffer("SELECT ");
-        StringBuffer colBuf = new StringBuffer();
+        StringBuilder sqlBuffer = new StringBuilder("SELECT ");
+        StringBuilder colBuf = new StringBuilder();
         whereClause = new String();
 
         Key key;

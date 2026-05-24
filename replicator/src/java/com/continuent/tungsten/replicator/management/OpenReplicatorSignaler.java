@@ -27,6 +27,8 @@ import java.rmi.RemoteException;
 
 import javax.management.remote.JMXConnector;
 
+import org.apache.log4j.Logger;
+
 import com.continuent.tungsten.common.exec.ArgvIterator;
 import com.continuent.tungsten.common.jmx.JmxManager;
 import com.continuent.tungsten.common.jmx.ServerRuntimeException;
@@ -42,6 +44,8 @@ import com.continuent.tungsten.replicator.conf.ReplicatorConf;
  */
 public class OpenReplicatorSignaler
 {
+    private static Logger logger = Logger.getLogger(OpenReplicatorSignaler.class);
+
     // Statics to read from stdin.
     static InputStreamReader converter            = new InputStreamReader(
                                                           System.in);
@@ -159,7 +163,7 @@ public class OpenReplicatorSignaler
                 else if (command.equals(Commands.ERROR))
                 {
                     // Check for error message
-                    StringBuffer msg = new StringBuffer();
+                    StringBuilder msg = new StringBuilder();
                     while (argvIterator.hasNext())
                     {
                         msg.append(argvIterator.next());
@@ -168,7 +172,7 @@ public class OpenReplicatorSignaler
                 }
                 else if (command.equals(Commands.SYNCED))
                 {
-                    StringBuffer msg = new StringBuffer();
+                    StringBuilder msg = new StringBuilder();
                     while (argvIterator.hasNext())
                     {
                         msg.append(argvIterator.next());
@@ -177,7 +181,7 @@ public class OpenReplicatorSignaler
                 }
                 else if (command.equals(Commands.RESTORED))
                 {
-                    StringBuffer msg = new StringBuffer();
+                    StringBuilder msg = new StringBuilder();
                     while (argvIterator.hasNext())
                     {
                         msg.append(argvIterator.next());
@@ -186,7 +190,7 @@ public class OpenReplicatorSignaler
                 }
                 else if (command.equals(Commands.OFFLINE))
                 {
-                    StringBuffer msg = new StringBuffer();
+                    StringBuilder msg = new StringBuilder();
                     while (argvIterator.hasNext())
                     {
                         msg.append(argvIterator.next());
@@ -195,7 +199,7 @@ public class OpenReplicatorSignaler
                 }
                 else if (command.equals(Commands.SHUTDOWN))
                 {
-                    StringBuffer msg = new StringBuffer();
+                    StringBuilder msg = new StringBuilder();
                     while (argvIterator.hasNext())
                     {
                         msg.append(argvIterator.next());
@@ -204,7 +208,7 @@ public class OpenReplicatorSignaler
                 }
                 else if (command.equals(Commands.CONSISTENCY))
                 {
-                    StringBuffer msg = new StringBuffer();
+                    StringBuilder msg = new StringBuilder();
                     while (argvIterator.hasNext())
                     {
                         msg.append(argvIterator.next());
@@ -255,7 +259,7 @@ public class OpenReplicatorSignaler
             // Occurs when there is a server-side application exception.
             println("Operation failed: " + e.getMessage());
             if (verbose)
-                e.printStackTrace();
+                logger.error("Operation failed", e);
             if (manager.getPendingError() != null)
             {
                 println("Error: " + manager.getPendingError());
@@ -281,7 +285,7 @@ public class OpenReplicatorSignaler
     {
         System.out.println(msg);
         if (t != null)
-            t.printStackTrace();
+            logger.error("Fatal error: " + msg, t);
         System.exit(1);
     }
 

@@ -277,7 +277,7 @@ public class THLManagerCtrl
                         log += new String(byteValue, charset);
                         if (hex)
                         {
-                            StringBuffer hexValue = new StringBuffer();
+                            StringBuilder hexValue = new StringBuilder();
                             hexValue.append(" (x");
                             for (byte b : byteValue)
                             {
@@ -296,7 +296,7 @@ public class THLManagerCtrl
                         && value.getValue() instanceof Timestamp)
                 {
                     Timestamp ts = (Timestamp) value.getValue();
-                    StringBuffer date = new StringBuffer(
+                    StringBuilder date = new StringBuilder(
                             dateFormatter.format(ts));
                     if (ts.getNanos() > 0)
                     {
@@ -847,7 +847,7 @@ public class THLManagerCtrl
                     {
                         // No values entered, but a list of column specs was
                         // provided (probably by a filter)
-                        StringBuffer buf = new StringBuffer(
+                        StringBuilder buf = new StringBuilder(
                                 "Column specs only found : ");
                         for (int c = 0; c < columns.size(); c++)
                         {
@@ -1396,7 +1396,7 @@ public class THLManagerCtrl
     {
         System.out.println(msg);
         if (t != null)
-            t.printStackTrace();
+            logger.error("Fatal error: " + msg, t);
         fail();
     }
 

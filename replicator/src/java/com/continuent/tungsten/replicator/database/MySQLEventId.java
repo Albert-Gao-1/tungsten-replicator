@@ -202,7 +202,7 @@ public class MySQLEventId implements EventId
     {
         if (valid)
         {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             if (filePrefix != null)
                 sb.append(filePrefix).append(".");
             sb.append(String.format("%06d:%016d", fileIndex, offset));

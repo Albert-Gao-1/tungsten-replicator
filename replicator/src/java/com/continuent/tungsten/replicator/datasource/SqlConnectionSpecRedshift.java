@@ -55,7 +55,7 @@ public class SqlConnectionSpecRedshift extends SqlConnectionSpecGeneric
     {
         if (url == null)
         {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             sb.append("jdbc:postgresql://");
             sb.append(host);
             sb.append(":");

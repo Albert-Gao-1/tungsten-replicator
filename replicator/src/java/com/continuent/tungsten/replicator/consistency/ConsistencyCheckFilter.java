@@ -276,7 +276,7 @@ public class ConsistencyCheckFilter implements Filter
         ArrayList<ColumnVal> keyValues = orc.getKeyValues().get(0);
         String dbName = null;
 
-        StringBuffer where = new StringBuffer(256);
+        StringBuilder where = new StringBuilder(256);
         where.append(" WHERE ");
         where.append(ConsistencyTable.dbColumnName);
         where.append(" = '");

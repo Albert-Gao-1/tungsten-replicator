@@ -1369,7 +1369,7 @@ public class SimpleBatchApplier implements RawApplier
         catch (CsvException e)
         {
             // Enumerate table columns.
-            StringBuffer colBuffer = new StringBuffer();
+            StringBuilder colBuffer = new StringBuilder();
             for (Column col : tableMetadata.getAllColumns())
             {
                 if (colBuffer.length() > 0)
@@ -1378,7 +1378,7 @@ public class SimpleBatchApplier implements RawApplier
             }
 
             // Enumerate CSV columns.
-            StringBuffer csvBuffer = new StringBuffer();
+            StringBuilder csvBuffer = new StringBuilder();
             for (String name : csv.getNames())
             {
                 if (csvBuffer.length() > 0)

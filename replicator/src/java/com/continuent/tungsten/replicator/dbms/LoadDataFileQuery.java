@@ -63,7 +63,7 @@ public class LoadDataFileQuery extends StatementData
     {
         String query = this.getQuery();
 
-        StringBuffer strBuf = new StringBuffer(query.substring(0,
+        StringBuilder strBuf = new StringBuilder(query.substring(0,
                 filenameStartPos));
 
         String fileName = getFileName();

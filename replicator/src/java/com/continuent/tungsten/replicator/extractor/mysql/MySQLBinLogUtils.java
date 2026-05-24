@@ -26,7 +26,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -87,7 +87,7 @@ public class MySQLBinLogUtils
     private static final String         WRITE_WITH_EVANESCENT_TABLE        = "WRITES WITH TEMP TABLE";
     private static final String         WRITE_WITH_EVANESCENT_UNKNOWN_TYPE = "WRITES WITH UNKNOWN TYPE";
 
-    private Map<String, Vector<String>> sessionQueries                     = new LinkedHashMap<String, Vector<String>>();
+    private Map<String, ArrayList<String>> sessionQueries                     = new LinkedHashMap<String, ArrayList<String>>();
 
     private static Logger               logger                             = Logger.getLogger(MySQLBinLogUtils.class);
 
@@ -193,9 +193,9 @@ public class MySQLBinLogUtils
             statistics.addLongStatistic(NORMAL_QUERY);
         }
 
-        private Vector<String>       evanescentReferences = new Vector<String>();
-        private Vector<SessionQuery> queries              = new Vector<SessionQuery>();
-        private Vector<SessionQuery> evanescentQueries    = new Vector<SessionQuery>();
+        private ArrayList<String>       evanescentReferences = new ArrayList<String>();
+        private ArrayList<SessionQuery> queries              = new ArrayList<SessionQuery>();
+        private ArrayList<SessionQuery> evanescentQueries    = new ArrayList<SessionQuery>();
 
         public void addEvanescent(SessionQuery query, String ref)
         {
@@ -221,12 +221,12 @@ public class MySQLBinLogUtils
             return sessionId;
         }
 
-        public Vector<SessionQuery> getQueries()
+        public ArrayList<SessionQuery> getQueries()
         {
             return queries;
         }
 
-        public Vector<SessionQuery> getEvanescentQueries()
+        public ArrayList<SessionQuery> getEvanescentQueries()
         {
             return evanescentQueries;
         }
@@ -243,7 +243,7 @@ public class MySQLBinLogUtils
         private String            query;
         private SessionEntityType type;
         private boolean           isEvanescent    = false;
-        private Vector<String>    foundReferences = new Vector<String>();
+        private ArrayList<String>    foundReferences = new ArrayList<String>();
 
         public SessionQuery(String sessionId, String query, int execTime,
                 int execError, SessionEntityType type)
@@ -287,7 +287,7 @@ public class MySQLBinLogUtils
             return query;
         }
 
-        public Vector<String> getFoundReferences()
+        public ArrayList<String> getFoundReferences()
         {
             return foundReferences;
         }
@@ -341,7 +341,7 @@ public class MySQLBinLogUtils
 
         for (SessionContext session : sessionMgr.values())
         {
-            Vector<SessionQuery> queries = session.getQueries();
+            ArrayList<SessionQuery> queries = session.getQueries();
             System.out
                     .printf("Session %s queries\n{\n", session.getSessionId());
 
@@ -602,12 +602,12 @@ public class MySQLBinLogUtils
         }
     }
 
-    public Map<String, Vector<String>> getSessionQueries()
+    public Map<String, ArrayList<String>> getSessionQueries()
     {
         return sessionQueries;
     }
 
-    public void setSessionQueries(Map<String, Vector<String>> sessionQueries)
+    public void setSessionQueries(Map<String, ArrayList<String>> sessionQueries)
     {
         this.sessionQueries = sessionQueries;
     }

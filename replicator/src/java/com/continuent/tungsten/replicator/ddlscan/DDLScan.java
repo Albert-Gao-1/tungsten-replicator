@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -151,7 +151,7 @@ public class DDLScan
      * @throws ReplicatorException On parsing or CSV format errors.
      * @throws IOException If file cannot be read.
      * @see #resetRenameDefinitions()
-     * @see #scan(String, Hashtable, Writer)
+     * @see #scan(String, HashMap, Writer)
      */
     public void parseRenameDefinitions(String definitionsFile)
             throws ReplicatorException, IOException
@@ -164,7 +164,7 @@ public class DDLScan
      * Stop using rename definitions file for future scan(...) calls.
      * 
      * @see #parseRenameDefinitions(String)
-     * @see #scan(String, Hashtable, Writer)
+     * @see #scan(String, HashMap, Writer)
      */
     public void resetRenameDefinitions()
     {
@@ -185,7 +185,7 @@ public class DDLScan
      * @return Rendered template data.
      */
     public String scan(String tablesToFind,
-            Hashtable<String, String> templateOptions, Writer writer)
+            HashMap<String, String> templateOptions, Writer writer)
             throws ReplicatorException, InterruptedException, SQLException,
             IOException
     {

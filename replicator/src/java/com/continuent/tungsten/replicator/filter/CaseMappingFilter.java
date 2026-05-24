@@ -21,7 +21,9 @@
 package com.continuent.tungsten.replicator.filter;
 
 import java.util.ArrayList;
-import java.io.*;
+import java.io.IOException;
+import java.io.StreamTokenizer;
+import java.io.StringReader;
 
 import org.apache.log4j.Logger;
 

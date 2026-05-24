@@ -150,7 +150,7 @@ public class NumericChunk extends AbstractChunk implements Chunk
     {
         if (getFrom() != null)
         {
-            StringBuffer sql = new StringBuffer(" WHERE ");
+            StringBuilder sql = new StringBuilder(" WHERE ");
             String pkName = getTable().getPrimaryKey().getColumns().get(0)
                     .getName();
 

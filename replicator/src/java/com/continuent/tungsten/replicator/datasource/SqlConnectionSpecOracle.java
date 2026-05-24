@@ -110,7 +110,7 @@ public class SqlConnectionSpecOracle extends SqlConnectionSpecGeneric
             return url;
 
         // Otherwise compute the MySQL DBMS URL.
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         if (jdbcHeader == null)
             if (useService)
                 sb.append("jdbc:oracle:thin:@//");

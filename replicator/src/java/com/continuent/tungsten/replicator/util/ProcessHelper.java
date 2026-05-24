@@ -198,7 +198,7 @@ public class ProcessHelper
     // Print command array as string.
     private String arrayToCommand(String[] array)
     {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < array.length; i++)
         {
             if (i > 0)
@@ -212,7 +212,7 @@ public class ProcessHelper
     private String processInfo(ProcessExecutor pe)
     {
         String sep = System.getProperty("line.separator");
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("Process exit value: " + pe.getExitValue() + sep);
         sb.append("Process timed out: " + pe.isTimedout() + sep);
         sb.append("Process exception " + pe.getError() + sep);

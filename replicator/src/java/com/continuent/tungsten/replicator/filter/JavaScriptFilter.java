@@ -20,7 +20,9 @@
 
 package com.continuent.tungsten.replicator.filter;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.mozilla.javascript.*;

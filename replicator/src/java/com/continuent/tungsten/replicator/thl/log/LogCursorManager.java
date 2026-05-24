@@ -21,8 +21,8 @@
 package com.continuent.tungsten.replicator.thl.log;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
 
@@ -42,7 +42,7 @@ public class LogCursorManager
 
     // Map of active cursors and flag to indicate we are closed for
     // business.
-    private Map<LogConnection, LogCursor> cursors          = new Hashtable<LogConnection, LogCursor>();
+    private Map<LogConnection, LogCursor> cursors          = new ConcurrentHashMap<LogConnection, LogCursor>();
     private boolean                       done;
 
     // Connection timeout variables.

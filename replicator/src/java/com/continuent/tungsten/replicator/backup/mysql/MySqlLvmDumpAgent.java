@@ -463,7 +463,7 @@ public class MySqlLvmDumpAgent extends AbstractBackupAgent
         // Generate MySQL URL.
         if (url == null)
         {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             sb.append("jdbc:mysql://");
             sb.append(host);
             if (port > 0)

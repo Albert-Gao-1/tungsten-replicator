@@ -73,12 +73,12 @@ public class OracleApplier extends JdbcApplier
         catch (SQLException sqlexp)
         {
             tempClob.freeTemporary();
-            sqlexp.printStackTrace();
+            logger.error("Failed to create temporary CLOB", sqlexp);
         }
         catch (Exception exp)
         {
             tempClob.freeTemporary();
-            exp.printStackTrace();
+            logger.error("Failed to create temporary CLOB", exp);
         }
         return tempClob;
     }

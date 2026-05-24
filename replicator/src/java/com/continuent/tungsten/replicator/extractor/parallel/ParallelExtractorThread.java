@@ -352,7 +352,7 @@ public class ParallelExtractorThread extends Thread
                                 }
                                 catch (InterruptedException e)
                                 {
-                                    e.printStackTrace();
+                                    logger.error("Failed to put DBMS event into queue", e);
                                 }
                                 rowIndex = 0;
                                 dataArray = new ArrayList<DBMSData>();
@@ -389,8 +389,7 @@ public class ParallelExtractorThread extends Thread
                             }
                             catch (InterruptedException e)
                             {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
+                                logger.error("Failed to put DBMS event into queue", e);
                             }
                         }
                         if (logger.isDebugEnabled())
@@ -419,8 +418,7 @@ public class ParallelExtractorThread extends Thread
                     }
                     catch (SQLException e)
                     {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
+                        logger.error("Failed to close result set", e);
                     }
                 if (pstmt != null)
                     try
@@ -430,8 +428,7 @@ public class ParallelExtractorThread extends Thread
                     }
                     catch (SQLException e)
                     {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
+                        logger.error("Failed to close prepared statement", e);
                     }
             }
             // 3. Get to next available table, if any
@@ -518,8 +515,7 @@ public class ParallelExtractorThread extends Thread
         }
         catch (SQLException e)
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            logger.error("Failed to set column type from database metadata", e);
         }
         switch (column.getType())
         {

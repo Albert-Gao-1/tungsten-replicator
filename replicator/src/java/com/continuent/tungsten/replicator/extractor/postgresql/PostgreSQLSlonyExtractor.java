@@ -144,7 +144,7 @@ public class PostgreSQLSlonyExtractor implements RawExtractor
     private String rebuildSlonyQuery(String cmdType, String cmdData,
             String tableSchemaName) throws ReplicatorException
     {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         if (cmdType.compareTo("I") == 0)
         {
@@ -190,7 +190,7 @@ public class PostgreSQLSlonyExtractor implements RawExtractor
             conn = getDBConnection();
             st = conn.createStatement();
 
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             sb.append("SELECT log_txid FROM (");
             sb.append(" SELECT log_txid FROM ");
             sb.append(getSlLogTable(1));
@@ -270,7 +270,7 @@ public class PostgreSQLSlonyExtractor implements RawExtractor
 
                     // Retrieve ordered statements belonging to this
                     // transaction.
-                    StringBuffer sb = new StringBuffer();
+                    StringBuilder sb = new StringBuilder();
                     sb.append("SELECT * FROM (");
                     sb.append(" SELECT log_origin, log_txid, log_tableid, log_actionseq, log_cmdtype, log_cmddata, tab_nspname, tab_relname FROM ");
                     sb.append(getSlLogTable(1));
@@ -430,7 +430,7 @@ public class PostgreSQLSlonyExtractor implements RawExtractor
         runtime = (ReplicatorRuntime) context;
 
         // Compute our MySQL dbms URL.
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("jdbc:postgresql://");
         sb.append(host);
         sb.append(":");

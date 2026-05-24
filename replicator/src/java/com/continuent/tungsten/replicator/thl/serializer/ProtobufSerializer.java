@@ -85,7 +85,7 @@ public class ProtobufSerializer implements Serializer
     private int          deserializeCount = 0;
     private long         globalDeserTime  = 0;
 
-    private StringBuffer trace            = new StringBuffer();
+    private StringBuilder trace            = new StringBuilder();
 
     /**
      * {@inheritDoc}
@@ -401,7 +401,7 @@ public class ProtobufSerializer implements Serializer
             }
         }
 
-        trace = new StringBuffer();
+        trace = new StringBuilder();
         try
         {
             for (OneRowChange oneRowChange : rowChanges)

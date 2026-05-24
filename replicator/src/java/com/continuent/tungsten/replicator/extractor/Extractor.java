@@ -41,7 +41,7 @@ public interface Extractor extends ReplicatorPlugin
      * @param header Last event we extracted
      * @throws ReplicatorException
      */
-    public void setLastEvent(ReplDBMSHeader header) throws ReplicatorException;
+    void setLastEvent(ReplDBMSHeader header) throws ReplicatorException;
 
     /**
      * Provides a new native event ID that overrides the default value that the
@@ -52,7 +52,7 @@ public interface Extractor extends ReplicatorPlugin
      * @param eventId Event ID at which to begin extracting
      * @throws ReplicatorException
      */
-    public void setLastEventId(String eventId) throws ReplicatorException;
+    void setLastEventId(String eventId) throws ReplicatorException;
 
     /**
      * Extract the next available event from the log.
@@ -60,13 +60,13 @@ public interface Extractor extends ReplicatorPlugin
      * @return next ReplDBMSEvent found in the logs or another ReplEvent
      *         subclass containing control data
      */
-    public ReplEvent extract() throws ReplicatorException, InterruptedException;
+    ReplEvent extract() throws ReplicatorException, InterruptedException;
 
     /**
      * Returns true if there are additional events that may be read as part of
      * block commit processing.
      */
-    public boolean hasMoreEvents();
+    boolean hasMoreEvents();
 
     /**
      * Returns the last event ID committed in a database from which we are
@@ -89,6 +89,6 @@ public interface Extractor extends ReplicatorPlugin
      * @throws ReplicatorException
      * @throws InterruptedException
      */
-    public String getCurrentResourceEventId() throws ReplicatorException,
+    String getCurrentResourceEventId() throws ReplicatorException,
             InterruptedException;
 }

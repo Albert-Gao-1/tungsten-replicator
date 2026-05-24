@@ -190,7 +190,7 @@ public class DsctlCtrl
         catch (Exception e)
         {
             printlnerr(e.getMessage());
-            e.printStackTrace();
+            logger.error("Datasource control error", e);
             exitCode = 4;
         }
         System.exit(exitCode);
@@ -392,7 +392,7 @@ public class DsctlCtrl
     {
         printlnerr(msg);
         if (t != null)
-            t.printStackTrace();
+            logger.error("Fatal error: " + msg, t);
         fail(exitCode);
     }
 

@@ -105,7 +105,7 @@ public class ScriptPlugin extends NotificationBroadcasterSupport
         String args = null;
         if (argumentList != null)
         {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (String arg : argumentList.keySet())
             {
                 String value = argumentList.get(arg);
@@ -240,7 +240,7 @@ public class ScriptPlugin extends NotificationBroadcasterSupport
     {
         if (cmdBuffer != null)
         {
-            StringBuffer sb = new StringBuffer(
+            StringBuilder sb = new StringBuilder(
                     "Operating system command array: \n");
             for (String value : cmdBuffer)
             {

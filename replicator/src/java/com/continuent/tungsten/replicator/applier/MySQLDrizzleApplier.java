@@ -292,8 +292,8 @@ public class MySQLDrizzleApplier extends MySQLApplier
         {
             // This is a MySQL TIMESTAMP field.
             Timestamp ts = (Timestamp) value.getValue();
-            StringBuffer timeStampString = new StringBuffer(
-                    dateTimeFormatter.format(ts));
+            StringBuilder timeStampString = new StringBuilder(
+                    dateTimeFormatter.get().format(ts));
             if (ts.getNanos() > 0)
             {
                 timeStampString.append(".");
@@ -308,7 +308,7 @@ public class MySQLDrizzleApplier extends MySQLApplier
             // background replicator time zone even in cases where we are reading
             // older logs. 
             Timestamp ts = (Timestamp) value.getValue();
-            StringBuffer datetime = new StringBuffer(mysqlDatetimeFormatter.format(ts));
+            StringBuilder datetime = new StringBuilder(mysqlDatetimeFormatter.get().format(ts));
             if (ts.getNanos() > 0)
             {
                 datetime.append(".");
@@ -321,8 +321,8 @@ public class MySQLDrizzleApplier extends MySQLApplier
         {
             // This is a MySQL DATE field.
             Date date = (Date) value.getValue();
-            StringBuffer dateString = new StringBuffer(
-                    dateFormatter.format(date));
+            StringBuilder dateString = new StringBuilder(
+                    dateFormatter.get().format(date));
             prepStatement.setString(bindLoc, dateString.toString());
         }
         else if (columnSpec.getType() == Types.TIME)
@@ -331,8 +331,8 @@ public class MySQLDrizzleApplier extends MySQLApplier
             {
                 // This is a MySQL TIME field.
                 Timestamp timestamp = ((Timestamp) value.getValue());
-                StringBuffer time = new StringBuffer(
-                        timeFormatter.format(timestamp));
+                StringBuilder time = new StringBuilder(
+                        timeFormatter.get().format(timestamp));
                 if (timestamp.getNanos() > 0)
                 {
                     time.append(".");
@@ -345,7 +345,7 @@ public class MySQLDrizzleApplier extends MySQLApplier
                 // This is not from MySQL, but we should at least
                 // honor it with time-zone aware formatting.
                 Time t = (Time) value.getValue();
-                prepStatement.setString(bindLoc, timeFormatter.format(t));
+                prepStatement.setString(bindLoc, timeFormatter.get().format(t));
             }
         }
         else if (columnSpec.getType() == Types.BLOB

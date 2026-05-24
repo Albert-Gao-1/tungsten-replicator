@@ -114,7 +114,7 @@ public class SchemaTableFilter
         try
         {
             String currentLine;
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
             br = new BufferedReader(new FileReader(file));
 
             while ((currentLine = br.readLine()) != null)
@@ -127,7 +127,7 @@ public class SchemaTableFilter
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            logger.error("Failed to parse filter file", e);
         }
         finally
         {
@@ -138,7 +138,7 @@ public class SchemaTableFilter
             }
             catch (IOException ex)
             {
-                ex.printStackTrace();
+                logger.error("Failed to close filter file reader", ex);
             }
         }
         return null;
@@ -205,7 +205,7 @@ public class SchemaTableFilter
     // as a key.
     public String fullyQualifiedName(String schema, String table)
     {
-        StringBuffer fqn = new StringBuffer();
+        StringBuilder fqn = new StringBuilder();
         fqn.append(schema);
         if (table != null)
             fqn.append(".").append(table);

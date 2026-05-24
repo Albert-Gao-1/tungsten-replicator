@@ -47,25 +47,25 @@ public class ReplicatorException extends Exception
 
     /**
      * Creates a new <code>ReplicatorException</code> object
-     * 
-     * @param arg0
+     *
+     * @param message the detail message
      */
-    public ReplicatorException(String arg0)
+    public ReplicatorException(String message)
     {
-        super(arg0);
+        super(message);
     }
 
     /**
      * Creates a new <code>ReplicatorException</code> object
-     * 
-     * @param arg0
+     *
+     * @param cause the cause
      */
-    public ReplicatorException(Throwable arg0)
+    public ReplicatorException(Throwable cause)
     {
-        super(arg0);
-        if (arg0 instanceof ReplicatorException)
+        super(cause);
+        if (cause instanceof ReplicatorException)
         {
-            ReplicatorException exc = (ReplicatorException) arg0;
+            ReplicatorException exc = (ReplicatorException) cause;
             this.extraData = exc.extraData;
             this.originalErrorMessage = exc.originalErrorMessage;
         }
@@ -73,21 +73,21 @@ public class ReplicatorException extends Exception
 
     /**
      * Creates a new <code>ReplicatorException</code> object
-     * 
-     * @param arg0
-     * @param arg1
+     *
+     * @param message the detail message
+     * @param cause the cause
      */
-    public ReplicatorException(String arg0, Throwable arg1)
+    public ReplicatorException(String message, Throwable cause)
     {
-        super(arg0, arg1);
-        if (arg1 instanceof ReplicatorException)
+        super(message, cause);
+        if (cause instanceof ReplicatorException)
         {
-            ReplicatorException exc = (ReplicatorException) arg1;
+            ReplicatorException exc = (ReplicatorException) cause;
             this.extraData = exc.extraData;
             this.originalErrorMessage = exc.originalErrorMessage;
         }
-        else 
-            this.originalErrorMessage = arg0;
+        else
+            this.originalErrorMessage = message;
     }
 
     public void setOriginalErrorMessage(String originalErrorMessage)

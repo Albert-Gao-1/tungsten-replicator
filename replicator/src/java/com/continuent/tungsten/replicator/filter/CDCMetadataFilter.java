@@ -24,7 +24,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
@@ -71,7 +71,7 @@ public class CDCMetadataFilter implements Filter
      * Cache of last sequence numbers in a given change table:</br>
      * "schema.table" => lastSeq
      */
-    private Hashtable<String, Long> seqCache;
+    private HashMap<String, Long> seqCache;
 
     /**
      * Name of current replication service's internal tungsten schema.
@@ -441,7 +441,7 @@ public class CDCMetadataFilter implements Filter
      */
     public void prepare(PluginContext context) throws ReplicatorException
     {
-        seqCache = new Hashtable<String, Long>();
+        seqCache = new HashMap<String, Long>();
         
         // Load defaults for connection
         if (url == null)

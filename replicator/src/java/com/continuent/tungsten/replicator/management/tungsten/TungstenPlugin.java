@@ -1280,7 +1280,7 @@ public class TungstenPlugin extends NotificationBroadcasterSupport
             props.put("done", new Boolean(watch.isDone()).toString());
 
             boolean[] matched = watch.getMatched();
-            StringBuffer matchString = new StringBuffer("[");
+            StringBuilder matchString = new StringBuilder("[");
             for (int i = 0; i < matched.length; i++)
             {
                 if (i > 0)

@@ -237,7 +237,7 @@ public class Watch<E> implements Future<E>
     public String toString()
     {
         // Turn the list of matches into a string.
-        StringBuffer matchString = new StringBuffer("[");
+        StringBuilder matchString = new StringBuilder("[");
         for (int i = 0; i < matched.length; i++)
         {
             if (i > 0)

@@ -416,7 +416,7 @@ public class AtomicIntervalGuard<D>
      */
     public synchronized String toString()
     {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append(this.getClass().getSimpleName());
         if (array.size() > 0)
         {

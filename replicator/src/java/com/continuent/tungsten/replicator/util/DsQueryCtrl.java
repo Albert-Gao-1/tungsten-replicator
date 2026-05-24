@@ -37,6 +37,8 @@ import java.util.LinkedHashMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import org.apache.log4j.Logger;
+
 import com.continuent.tungsten.common.config.TungstenProperties;
 import com.continuent.tungsten.common.exec.ArgvIterator;
 import com.continuent.tungsten.replicator.ReplicatorException;
@@ -53,6 +55,8 @@ import com.continuent.tungsten.replicator.database.DatabaseFactory;
  */
 public class DsQueryCtrl
 {
+    private static Logger logger = Logger.getLogger(DsQueryCtrl.class);
+
     protected static ArgvIterator argvIterator = null;
 
     /**
@@ -222,7 +226,7 @@ public class DsQueryCtrl
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace();
+                    logger.error("Failed to execute query", e);
                 }
                 finally
                 {
@@ -234,7 +238,7 @@ public class DsQueryCtrl
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            logger.error("Failed to run query", e);
         }
     }
 
@@ -375,7 +379,7 @@ public class DsQueryCtrl
     {
         System.out.println(msg);
         if (t != null)
-            t.printStackTrace();
+            logger.error("Fatal error: " + msg, t);
         fail();
     }
 

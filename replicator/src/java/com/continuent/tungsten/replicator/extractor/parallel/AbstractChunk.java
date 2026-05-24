@@ -82,7 +82,7 @@ public abstract class AbstractChunk implements Chunk
     @Override
     public String getQuery(Database connection, String eventId)
     {
-        StringBuffer sql = new StringBuffer();
+        StringBuilder sql = new StringBuilder();
 
         List<String> columns = getColumns();
         if (columns == null)

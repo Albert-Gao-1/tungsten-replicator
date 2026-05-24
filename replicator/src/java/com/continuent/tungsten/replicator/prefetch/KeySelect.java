@@ -181,7 +181,7 @@ public class KeySelect
      */
     public String createPrefetchSelect()
     {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         // Select all for primary, otherwise use count(*) to force
         // scan of index pages only.
@@ -221,7 +221,7 @@ public class KeySelect
     {
         if (invocationKey == null)
         {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             sb.append(table.getSchema());
             sb.append(".").append(table.getName());
             sb.append(".").append(key.getName());
@@ -242,7 +242,7 @@ public class KeySelect
      */
     public String toString()
     {
-        StringBuffer sb = new StringBuffer(this.getClass().getSimpleName());
+        StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
         sb.append(" ").append(table.getSchema());
         sb.append(".").append(table.getName());
         sb.append(".").append(key.getName());
